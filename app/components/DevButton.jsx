@@ -15,15 +15,15 @@
     }) => {
       const initRipple = new Ripple();
       const commonStyle =
-        "transition-all flex items-center gap-1 text-nowrap justify-center active:scale-95 w-fit h-fit border-2 border-cyan-700";
+        "transition-all flex items-center gap-1 text-nowrap justify-center active:scale-95 w-fit h-fit border-2 border-cyan-400";
     
       const buttonVariants = {
-        solid: " bg-cyan-700 text-white",
-        border: "text-cyan-700 font-semibold ", // Changed from 'outline'
-        light: "hover:bg-cyan-700/30 text-cyan-700 font-semibold ",
-        flat: "border-cyan-700/5 bg-cyan-700/20 text-cyan-700 font-semibold backdrop-blur-sm ",
-        ghost: "text-cyan-700 hover:bg-cyan-700 hover:text-white font-semibold ",
-        customForIcon: "bg-transparent border-none hover:bg-cyan-700/50 text-white font-semibold text-md",
+        solid: " bg-cyan-400 text-white",
+        border: "text-cyan-400 font-semibold ", // Changed from 'outline'
+        light: "hover:bg-cyan-400/30 text-cyan-400 font-semibold ",
+        flat: "border-cyan-400/5 bg-cyan-400/50 text-cyan-400 font-semibold backdrop-blur-sm ",
+        ghost: "text-cyan-400 hover:bg-cyan-400 hover:text-white font-semibold ",
+        customForIcon: "bg-transparent border-none hover:bg-cyan-400/30 text-cyan-800 font-bold text-lg",
       };
     
       const buttonSizes = {

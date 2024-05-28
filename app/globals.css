@@ -3,7 +3,7 @@
 @tailwind utilities;
 
 body {
-  @apply bg-slate-200;
+  @apply bg-slate-800;
 }
 .ql-toolbar {
   @apply hidden;

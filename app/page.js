@@ -12,7 +12,7 @@ const page = () => {
   }, [textData]);
 
   return (
-    <main className="flex relative flex-col max-w-5xl h-screen mx-auto text-white bg-slate-800 p-0 overflow-hidden overflow-y-scroll ">
+    <main className="flex relative flex-col max-w-4xl h-screen mx-auto text-slate-800 bg-white overflow-hidden overflow-y-scroll p-2 m-4 rounded-2xl ">
       <EditorClips />
       <ContentEditable
         ContentEditable

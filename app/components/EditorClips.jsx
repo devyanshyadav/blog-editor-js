@@ -29,6 +29,7 @@ import { BiRedo, BiUndo } from "react-icons/bi";
 import DevButton from "./DevButton";
 import DevTooltip from "./DevTooltip";
 import DevStore from "../libs/utils/zuststore";
+import { BsBlockquoteLeft } from "react-icons/bs";
 
 const EditorClips = () => {
   const [txtToggle, setTxtToggle] = useState(true);
@@ -56,7 +57,7 @@ const EditorClips = () => {
       document.execCommand(
         "insertHTML",
         false,
-        `<code class="bg-slate-200 rounded-md px-2 text-sm">${selectedTxtNode}</code>‎ `
+        `<code class="bg-slate-200 rounded-md px-2 text-sm">${selectedTxtNode}</code><br/> `
       );
     }
     setSelectedTxtNode("");
@@ -69,12 +70,29 @@ const EditorClips = () => {
       document.execCommand(
         "insertHTML",
         false,
-        `<div style="display: flex; justify-content: center; width: 100%;">
-        <img style="border-radius: 6px; margin: 5px; aspect-ratio: 16/9;" src=${url} />
-      </div>‎ `
+        `<figure>
+   <img src=${url} alt="image" class="h-full max-h-72 w-full object-cover object-center rounded-md border" />
+  <figcaption class="text-sm font-light">Image title</figcaption>
+</figure><br/> `
       );
     }
   };
+
+  const insertCodeBlock = () => {
+      document.execCommand("styleWithCSS", false, null);
+      document.execCommand(
+        "insertHTML",
+        false,
+        `<pre contenteditable="false" class="relative rounded-md border bg-slate-100 p-2 text-sm overflow-hidden">
+    <code contenteditable="true" class="focus:outline-none">
+  const functionName=()=>{
+    console.log('Hello world')
+  }
+   </code>
+   <span class="absolute top-0 right-0 bg-slate-600 text-white px-2  rounded-bl-md">Javascript</span>
+</pre><br/> `
+      );
+    }
   const insertVideo = () => {
     const url = prompt("Enter the Video URL:");
     if (url) {
@@ -88,9 +106,27 @@ const EditorClips = () => {
   <source src=${url} type="video/ogg">
   Your browser does not support HTML video.
   </video>
-      </div>`
+      </div><br/>`
       );
     }
+  };
+  const insertBlockquote = () => {
+    document.execCommand("styleWithCSS", false, null);
+    document.execCommand(
+      "insertHTML",
+      false,
+      `<blockquote class="p-2 text-slate-700 bg-slate-100 border-l-4 my-1 border-slate-500 rounded-r-md">If you want something said, ask a man; if you want something done, ask a woman.
+</blockquote><br/>`
+    );
+  };
+  const insertLine = () => {
+    document.execCommand("styleWithCSS", false, null);
+    document.execCommand(
+      "insertHTML",
+      false,
+      `<blockquote class="p-2 text-slate-700 bg-slate-100 border-l-4 my-1 border-slate-500 rounded-r-md">If you want something said, ask a man; if you want something done, ask a woman.
+</blockquote><br/>`
+    );
   };
 
   const highlightText = (value) => {
@@ -203,8 +239,13 @@ const EditorClips = () => {
     };
   }, []);
   return (
-    <div className="flex gap-1 p-1 flex-wrap bg-slate-700 border-b border-cyan-700/50 shadow-md items-center w-full sticky top-0">
-      <DevButton className="active:transform-none" rounded={"lg"} size="sm">
+    <div className="flex gap-1 p-1 rounded-xl flex-wrap bg-slate-50 border border-cyan-400/50 shadow items-center w-full sticky top-0">
+      <DevButton
+        className="active:transform-none"
+        rounded={"lg"}
+        size="sm"
+        variant="flat"
+      >
         <DevTooltip tipData="Undo">
           <DevButton
             ripple={true}
@@ -230,6 +271,7 @@ const EditorClips = () => {
           </DevButton>
         </DevTooltip>
       </DevButton>
+
       <DevTooltip tipData="Bold">
         <DevButton
           ripple={true}
@@ -363,6 +405,17 @@ const EditorClips = () => {
           <RiCodeFill />
         </DevButton>
       </DevTooltip>
+      <DevTooltip tipData="Code Block">
+        <DevButton
+          ripple={true}
+          onClick={insertCodeBlock}
+          size="lg"
+          icon={true}
+          variant="customForIcon"
+        >
+          <RiCodeFill />
+        </DevButton>
+      </DevTooltip>
       <DevTooltip tipData="Subscript">
         <DevButton
           ripple={true}
@@ -374,6 +427,7 @@ const EditorClips = () => {
           <RiSubscript />
         </DevButton>
       </DevTooltip>
+      
       <DevTooltip tipData="Superscript">
         <DevButton
           ripple={true}
@@ -409,6 +463,17 @@ const EditorClips = () => {
       </DevTooltip>
       <DevTooltip tipData="Emoji">
         <ClipEmoji emojiTxt={emojiTxt} />
+      </DevTooltip>
+      <DevTooltip tipData="Block Quote">
+        <DevButton
+          ripple={true}
+          onClick={insertBlockquote}
+          size="lg"
+          icon={true}
+          variant="customForIcon"
+        >
+          <BsBlockquoteLeft />
+        </DevButton>
       </DevTooltip>
       <DevTooltip tipData="Insert Video">
         <DevButton
