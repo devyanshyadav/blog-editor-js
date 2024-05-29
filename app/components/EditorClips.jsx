@@ -17,27 +17,25 @@ import {
   RiSuperscript,
   RiUnderline,
 } from "react-icons/ri";
-import ClipTxtColor from "./EditorComponents/ClipTxtColor";
-import ClipFontSize from "./EditorComponents/ClipFontSize";
-import ClipEmoji from "./EditorComponents/ClipEmoji";
-import ClipTxtHighLight from "./EditorComponents/ClipTxtHighLight";
-import ClipFontFamily from "./EditorComponents/ClipFontFamily";
+import ClipTxtColor from "../components/EditorComponents/ClipTxtColor";
+import { FiMoreVertical } from "react-icons/fi";
+import ClipFontSize from "../components/EditorComponents/ClipFontSize";
+import ClipEmoji from "../components/EditorComponents/ClipEmoji";
+import ClipTxtHighLight from "../components/EditorComponents/ClipTxtHighLight";
+import ClipFontFamily from "../components/EditorComponents/ClipFontFamily";
 import { IoImageOutline } from "react-icons/io5";
 import { PiVideo, PiVideoBold } from "react-icons/pi";
-import { LiaRedoAltSolid, LiaUndoAltSolid } from "react-icons/lia";
-import { BiRedo, BiUndo } from "react-icons/bi";
 import DevButton from "./DevButton";
 import DevTooltip from "./DevTooltip";
-import DevStore from "../libs/utils/zuststore";
 import { BsBlockquoteLeft } from "react-icons/bs";
 import { GoCodeSquare } from "react-icons/go";
 import { ImPageBreak } from "react-icons/im";
 import { RiSpace } from "react-icons/ri";
+import DevStore from "../libs/utils/zuststore";
 
 const EditorClips = () => {
   const [selectedTxtNode, setSelectedTxtNode] = useState("");
-  const { undo, redo } = DevStore.temporal.getState();
-
+  const { toggleClip, setToggleClip } = DevStore();
   const makeBold = () => {
     document.execCommand("styleWithCSS", false, null);
     document.execCommand("bold", false, null);
@@ -246,38 +244,18 @@ const EditorClips = () => {
     };
   }, []);
   return (
-    <div className="flex gap-1 p-1 rounded-xl flex-wrap bg-slate-50 border border-cyan-400/50 shadow items-center w-full sticky top-0">
-      <DevButton
-        className="active:transform-none"
-        rounded={"lg"}
-        size="sm"
-        variant="flat"
+    <div
+      className="flex gap-1 relative overflow-hidden"
+      style={{ flexWrap: toggleClip && "wrap" }}
+    >
+      <span
+        className="absolute right-0 top-0 bottom-0 bg-cyan-400 cursor-pointer  text-xl h-full rounded-l-md grid place-content-center"
+        onClick={() => setToggleClip(!toggleClip)}
       >
-        <DevTooltip tipData="Undo">
-          <DevButton
-            ripple={true}
-            onClick={() => undo()}
-            size="sm"
-            icon={true}
-            variant="customForIcon"
-            rounded="full"
-          >
-            <BiUndo className="text-xl" />
-          </DevButton>
+        <DevTooltip tipData="More Tools" place="left">
+          <FiMoreVertical />
         </DevTooltip>
-        <DevTooltip tipData="Redo">
-          <DevButton
-            ripple={true}
-            onClick={() => redo()}
-            size="sm"
-            icon={true}
-            variant="customForIcon"
-            rounded="full"
-          >
-            <BiRedo className="text-xl" />
-          </DevButton>
-        </DevTooltip>
-      </DevButton>
+      </span>
 
       <DevTooltip tipData="Bold">
         <DevButton

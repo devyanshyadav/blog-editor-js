@@ -46,7 +46,7 @@ export default function ClipFontSize({ changeFontSize, clipClass }) {
           <DevButton
             key={i}
             size="sm"
-            className="bg-slate-200 border-none text-black hover:bg-accent rounded-md cursor-pointer border !p-0 !px-2"
+            className="bg-slate-200 border-none !text-black hover:bg-accent rounded-md cursor-pointer border !p-0 !px-2"
             onClick={() => changeFontSize(e.fontSize, e.txtType)}
           >
             <span style={{ fontSize: `${e.fontSize}rem` }}>{e.txtType}</span>
