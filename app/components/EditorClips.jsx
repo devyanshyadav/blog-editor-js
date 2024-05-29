@@ -30,9 +30,11 @@ import DevButton from "./DevButton";
 import DevTooltip from "./DevTooltip";
 import DevStore from "../libs/utils/zuststore";
 import { BsBlockquoteLeft } from "react-icons/bs";
+import { GoCodeSquare } from "react-icons/go";
+import { ImPageBreak } from "react-icons/im";
+import { RiSpace } from "react-icons/ri";
 
 const EditorClips = () => {
-  const [txtToggle, setTxtToggle] = useState(true);
   const [selectedTxtNode, setSelectedTxtNode] = useState("");
   const { undo, redo } = DevStore.temporal.getState();
 
@@ -46,9 +48,13 @@ const EditorClips = () => {
   }
   // Add the rest of the functions here
 
-  const changeColor = (color) => {
+  const changeColor = (colorValue) => {
     document.execCommand("styleWithCSS", false, null);
-    document.execCommand("foreColor", false, color);
+    document.execCommand(
+      "insertHTML",
+      false,
+      `<span style="color: ${colorValue}">${selectedTxtNode}</span> ‎`
+    );
   };
 
   const changeTxtToCode = () => {
@@ -57,7 +63,7 @@ const EditorClips = () => {
       document.execCommand(
         "insertHTML",
         false,
-        `<code class="bg-slate-200 rounded-md px-2 text-sm">${selectedTxtNode}</code><br/> `
+        `<code class="bg-slate-200 rounded-md px-2">${selectedTxtNode}</code> ‎`
       );
     }
     setSelectedTxtNode("");
@@ -79,11 +85,11 @@ const EditorClips = () => {
   };
 
   const insertCodeBlock = () => {
-      document.execCommand("styleWithCSS", false, null);
-      document.execCommand(
-        "insertHTML",
-        false,
-        `<pre contenteditable="false" class="relative rounded-md border bg-slate-100 p-2 text-sm overflow-hidden">
+    document.execCommand("styleWithCSS", false, null);
+    document.execCommand(
+      "insertHTML",
+      false,
+      `<pre contenteditable="false" class="relative rounded-md border bg-slate-100 p-2 text-sm overflow-hidden">
     <code contenteditable="true" class="focus:outline-none">
   const functionName=()=>{
     console.log('Hello world')
@@ -91,8 +97,8 @@ const EditorClips = () => {
    </code>
    <span class="absolute top-0 right-0 bg-slate-600 text-white px-2  rounded-bl-md">Javascript</span>
 </pre><br/> `
-      );
-    }
+    );
+  };
   const insertVideo = () => {
     const url = prompt("Enter the Video URL:");
     if (url) {
@@ -115,30 +121,31 @@ const EditorClips = () => {
     document.execCommand(
       "insertHTML",
       false,
-      `<blockquote class="p-2 text-slate-700 bg-slate-100 border-l-4 my-1 border-slate-500 rounded-r-md">If you want something said, ask a man; if you want something done, ask a woman.
-</blockquote><br/>`
+      `<blockquote class="my-1 rounded-r-md border-l-4 border-slate-500 bg-slate-100 p-2 text-slate-700">
+       <p>Words can be like X-rays, if you use them properly—they’ll go through anything. You read and you’re      pierced.</p>
+       <br>
+       <footer class="text-sm"><cite>—Aldous Huxley, Brave New World</cite></footer>
+      </blockquote>
+      <br/>`
     );
   };
-  const insertLine = () => {
+  const insertLineBreak = () => {
+    document.execCommand("styleWithCSS", false, null);
+    document.execCommand("insertHTML", false, `<hr class="my-1" /><br/>`);
+  };
+
+  const insertWhiteLine = () => {
+    document.execCommand("styleWithCSS", false, null);
+    document.execCommand("insertHTML", false, `<br/><br/>`);
+  };
+
+  const highlightText = (colorValue) => {
     document.execCommand("styleWithCSS", false, null);
     document.execCommand(
       "insertHTML",
       false,
-      `<blockquote class="p-2 text-slate-700 bg-slate-100 border-l-4 my-1 border-slate-500 rounded-r-md">If you want something said, ask a man; if you want something done, ask a woman.
-</blockquote><br/>`
+      `<span style="background-color: ${colorValue}">${selectedTxtNode}</span> ‎`
     );
-  };
-
-  const highlightText = (value) => {
-    if (txtToggle) {
-      document.execCommand("styleWithCSS", false, null);
-      document.execCommand("hiliteColor", false, value);
-      setTxtToggle((prev) => !prev);
-    } else {
-      document.execCommand("styleWithCSS", false, null);
-      document.execCommand("hiliteColor", false, "transparent");
-      setTxtToggle((prev) => !prev);
-    }
   };
 
   const insertLink = () => {
@@ -413,7 +420,7 @@ const EditorClips = () => {
           icon={true}
           variant="customForIcon"
         >
-          <RiCodeFill />
+          <GoCodeSquare />
         </DevButton>
       </DevTooltip>
       <DevTooltip tipData="Subscript">
@@ -427,7 +434,7 @@ const EditorClips = () => {
           <RiSubscript />
         </DevButton>
       </DevTooltip>
-      
+
       <DevTooltip tipData="Superscript">
         <DevButton
           ripple={true}
@@ -461,8 +468,27 @@ const EditorClips = () => {
           <PiVideoBold />
         </DevButton>
       </DevTooltip>
-      <DevTooltip tipData="Emoji">
-        <ClipEmoji emojiTxt={emojiTxt} />
+      <DevTooltip tipData="Line Break">
+        <DevButton
+          ripple={true}
+          onClick={insertLineBreak}
+          size="lg"
+          icon={true}
+          variant="customForIcon"
+        >
+          <ImPageBreak />
+        </DevButton>
+      </DevTooltip>
+      <DevTooltip tipData="White Line">
+        <DevButton
+          ripple={true}
+          onClick={insertWhiteLine}
+          size="lg"
+          icon={true}
+          variant="customForIcon"
+        >
+          <RiSpace />
+        </DevButton>
       </DevTooltip>
       <DevTooltip tipData="Block Quote">
         <DevButton

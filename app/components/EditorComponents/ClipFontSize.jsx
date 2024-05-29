@@ -41,15 +41,16 @@ export default function ClipFontSize({ changeFontSize, clipClass }) {
         </DevButton>
       }
     >
-      <div className="h-full grid grid-cols-1 gap-1 w-fit text-secondary flex-wrap bg-primary items-center justify-center  p-1 rounded-xl border border-accent ">
+      <div className="h-full grid grid-cols-1 gap-1 w-fit text-secondary flex-wrap bg-primary items-center justify-center  p-1 rounded-xl bg-white border shadow-md">
         {Font.map((e, i) => (
-          <button
+          <DevButton
             key={i}
-            className="bg-white hover:bg-accent rounded-md cursor-pointer"
+            size="sm"
+            className="bg-slate-200 border-none text-black hover:bg-accent rounded-md cursor-pointer border !p-0 !px-2"
             onClick={() => changeFontSize(e.fontSize, e.txtType)}
           >
             <span style={{ fontSize: `${e.fontSize}rem` }}>{e.txtType}</span>
-          </button>
+          </DevButton>
         ))}
       </div>
     </DevDropDown>

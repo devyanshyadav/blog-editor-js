@@ -38,7 +38,7 @@ const DevPopover = ({
             place="bottom"
             offset={1}
             style={{
-              backgroundColor: "transparent",
+              backgroundColor: "unset",
               padding: "0px",
               zIndex: 1000,
             }}

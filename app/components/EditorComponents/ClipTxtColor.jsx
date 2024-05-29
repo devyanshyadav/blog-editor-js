@@ -6,9 +6,11 @@ import { RiCircleFill, RiFontSize } from "react-icons/ri";
 import { MdFormatColorText } from "react-icons/md";
 import DevDropDown from "../DevDropDown";
 import DevButton from "../DevButton";
+import DevColorPicker from "../DevColorPicker";
 
-export default function ClipTxtColor({ changeColor, clipClass }) {
+export default function ClipTxtColor({ changeColor }) {
   let color = [
+    null,
     "Red",
     "Orange",
     "Yellow",
@@ -31,21 +33,7 @@ export default function ClipTxtColor({ changeColor, clipClass }) {
         </DevButton>
       }
     >
-      <div className="h-full flex gap-1 w-32 flex-wrap bg-primary items-center justify-center  p-1 rounded-xl border border-accent ">
-        {color.map((e, i) => (
-          <button
-            key={i}
-            className="bg-white cursor-pointer p-1 rounded-md"
-            onClick={() => changeColor(e)}
-          >
-            <RiCircleFill
-              size={18}
-              style={{ color: e }}
-              className="border rounded-full"
-            />
-          </button>
-        ))}
-      </div>
+     <DevColorPicker color={color} setColor={changeColor}/>
     </DevDropDown>
   );
 }
