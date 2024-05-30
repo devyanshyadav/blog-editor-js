@@ -1,7 +1,6 @@
 "use client";
 import React, { useEffect, useState, useRef, useId } from "react";
 import { Tooltip as Popover } from "react-tooltip";
-import { motion } from "framer-motion";
 import { createPortal } from "react-dom";
 import clsx from "clsx";
 
@@ -43,11 +42,7 @@ const DevPopover = ({
               zIndex: 1000,
             }}
           >
-            <motion.div
-              initial={{ scale: 0.8 }}
-              animate={{ scale: 1 }}
-              exit={{ scale: 0.8 }}
-              transition={{ duration: 0.2 }}
+            <div
               ref={popoverRef}
               onClick={() => {
                 if (contentClick) {
@@ -60,7 +55,7 @@ const DevPopover = ({
               )}
             >
               {children && children}
-            </motion.div>
+            </div>
           </Popover>,
           document.body
         )}

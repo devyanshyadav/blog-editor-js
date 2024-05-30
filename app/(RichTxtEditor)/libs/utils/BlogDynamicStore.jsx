@@ -1,7 +1,12 @@
 "use client";
 import { create } from "zustand";
+import { temporal } from "zundo";
+import isDeepEqual from "fast-deep-equal";
+import { persist } from "zustand/middleware";
 
 const DevDynamicStore = create(
+  persist(
+    temporal(
       (set, get) => ({
         textData: "Hello world",
         markedPastTabs: [],
@@ -34,6 +39,19 @@ const DevDynamicStore = create(
           set((prevState) => ({ ...prevState, textData: e }));
         },
       }),
+      {
+        partialize: (state) => {
+          const { textData } = state;
+          return { textData };
+        },
+        equality: (pastState, currentState) =>
+          isDeepEqual(pastState, currentState),
+        wrapTemporal: (storeInitializer) =>
+          persist(storeInitializer, { name: "temporal-persist" }),
+      }
+    ),
+    {}
+  )
 );
 
 export default DevDynamicStore;
