@@ -88,16 +88,17 @@ export default function ClipFontFamily({ changeFontFamily, clipClass }) {
         </DevButton>
       }
     >
-      <div className="h-full flex text-secondary gap-1 w-60 text-sm flex-wrap bg-primary items-center justify-center  p-1 rounded-xl border border-accent ">
+      <div className="h-full flex gap-1 w-fit text-secondary flex-wrap bg-primary items-center justify-center  p-1 rounded-xl bg-white border shadow-md max-w-48">
         {fonts.map((e, i) => (
-          <button
+          <DevButton
             key={i}
-            className="bg-white hover:bg-accent cursor-pointer p-1 rounded"
+            size="sm"
+            className="bg-slate-200 border-none !text-black hover:bg-accent rounded-md cursor-pointer border !p-0 !px-2"
             style={{ fontFamily: e.family }}
             onClick={() => changeFontFamily(e.family)}
           >
             {e.font}
-          </button>
+          </DevButton>
         ))}
       </div>
     </DevDropDown>

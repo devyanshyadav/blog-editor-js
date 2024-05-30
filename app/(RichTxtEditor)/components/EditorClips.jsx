@@ -7,8 +7,6 @@ import {
   RiAlignRight,
   RiBold,
   RiCodeFill,
-  RiEmotionLine,
-  RiFontSansSerif,
   RiItalic,
   RiLinkM,
   RiListOrdered2,
@@ -24,56 +22,54 @@ import ClipEmoji from "../components/EditorComponents/ClipEmoji";
 import ClipTxtHighLight from "../components/EditorComponents/ClipTxtHighLight";
 import ClipFontFamily from "../components/EditorComponents/ClipFontFamily";
 import { IoImageOutline } from "react-icons/io5";
-import { PiVideo, PiVideoBold } from "react-icons/pi";
+import { PiVideoBold } from "react-icons/pi";
 import DevButton from "./DevButton";
 import DevTooltip from "./DevTooltip";
 import { BsBlockquoteLeft } from "react-icons/bs";
 import { GoCodeSquare } from "react-icons/go";
 import { ImPageBreak } from "react-icons/im";
 import { RiSpace } from "react-icons/ri";
-import DevStore from "../libs/utils/zuststore";
+import DevStore from "../libs/utils/BlogStore";
 
 const EditorClips = () => {
   const [selectedTxtNode, setSelectedTxtNode] = useState("");
   const { toggleClip, setToggleClip } = DevStore();
-  const makeBold = () => {
+
+  const formatText = (command, value = null) => {
     document.execCommand("styleWithCSS", false, null);
-    document.execCommand("bold", false, null);
+    document.execCommand(command, false, value);
+    setSelectedTxtNode("");
   };
-  function makeItalic() {
-    document.execCommand("styleWithCSS", false, null);
-    document.execCommand("italic");
-  }
-  // Add the rest of the functions here
+
+  const makeBold = () => {
+    formatText("bold");
+  };
+
+  const makeItalic = () => {
+    formatText("italic");
+  };
 
   const changeColor = (colorValue) => {
-    document.execCommand("styleWithCSS", false, null);
-    document.execCommand(
+    formatText(
       "insertHTML",
-      false,
       `<span style="color: ${colorValue}">${selectedTxtNode}</span> ‎`
     );
   };
 
   const changeTxtToCode = () => {
-    document.execCommand("styleWithCSS", false, null);
     if (selectedTxtNode) {
-      document.execCommand(
+      formatText(
         "insertHTML",
-        false,
         `<code class="bg-slate-200 rounded-md px-2">${selectedTxtNode}</code> ‎`
       );
     }
-    setSelectedTxtNode("");
   };
 
   const insertImage = () => {
     const url = prompt("Enter the Image URL:");
     if (url) {
-      document.execCommand("styleWithCSS", false, null);
-      document.execCommand(
+      formatText(
         "insertHTML",
-        false,
         `<figure>
    <img src=${url} alt="image" class="h-full max-h-72 w-full object-cover object-center rounded-md border" />
   <figcaption class="text-sm font-light">Image title</figcaption>
@@ -83,10 +79,8 @@ const EditorClips = () => {
   };
 
   const insertCodeBlock = () => {
-    document.execCommand("styleWithCSS", false, null);
-    document.execCommand(
+    formatText(
       "insertHTML",
-      false,
       `<pre contenteditable="false" class="relative rounded-md border bg-slate-100 p-2 text-sm overflow-hidden">
     <code contenteditable="true" class="focus:outline-none">
   const functionName=()=>{
@@ -97,13 +91,12 @@ const EditorClips = () => {
 </pre><br/> `
     );
   };
+
   const insertVideo = () => {
     const url = prompt("Enter the Video URL:");
     if (url) {
-      document.execCommand("styleWithCSS", false, null);
-      document.execCommand(
+      formatText(
         "insertHTML",
-        false,
         `<div style="display: flex; justify-content: center; width: 100%;">
         <video controls volume="0.5" style="border-radius: 6px; margin: 5px; aspect-ratio: 16/9;">
   <source src=${url} type="video/mp4">
@@ -114,34 +107,30 @@ const EditorClips = () => {
       );
     }
   };
+
   const insertBlockquote = () => {
-    document.execCommand("styleWithCSS", false, null);
-    document.execCommand(
+    formatText(
       "insertHTML",
-      false,
       `<blockquote class="my-1 rounded-r-md border-l-4 border-slate-500 bg-slate-100 p-2 text-slate-700">
-       <p>Words can be like X-rays, if you use them properly—they’ll go through anything. You read and you’re      pierced.</p>
+       <p>Words can be like X-rays, if you use them properly—they'll go through anything. You read and you're      pierced.</p>
        <br>
        <footer class="text-sm"><cite>—Aldous Huxley, Brave New World</cite></footer>
       </blockquote>
       <br/>`
     );
   };
+
   const insertLineBreak = () => {
-    document.execCommand("styleWithCSS", false, null);
-    document.execCommand("insertHTML", false, `<hr class="my-1" /><br/>`);
+    formatText("insertHTML", `<hr class="my-1" /><br/>`);
   };
 
   const insertWhiteLine = () => {
-    document.execCommand("styleWithCSS", false, null);
-    document.execCommand("insertHTML", false, `<br/><br/>`);
+    formatText("insertHTML", `<br/><br/>`);
   };
 
   const highlightText = (colorValue) => {
-    document.execCommand("styleWithCSS", false, null);
-    document.execCommand(
+    formatText(
       "insertHTML",
-      false,
       `<span style="background-color: ${colorValue}">${selectedTxtNode}</span> ‎`
     );
   };
@@ -149,63 +138,53 @@ const EditorClips = () => {
   const insertLink = () => {
     const url = prompt("Enter the URL:");
     if (url) {
-      document.execCommand("styleWithCSS", false, null);
-      document.execCommand("createLink", false, url);
-      document.execCommand("underline");
+      formatText("createLink", url);
+      formatText("underline");
     }
   };
 
   const alignLeft = () => {
-    document.execCommand("styleWithCSS", false, null);
-    document.execCommand("justifyLeft");
+    formatText("justifyLeft");
   };
 
   const alignCenter = () => {
-    document.execCommand("styleWithCSS", false, null);
-    document.execCommand("justifyCenter");
+    formatText("justifyCenter");
   };
 
   const alignRight = () => {
-    document.execCommand("styleWithCSS", false, null);
-    document.execCommand("justifyRight");
+    formatText("justifyRight");
   };
 
   const underlineText = () => {
-    document.execCommand("styleWithCSS", false, null);
-    document.execCommand("underline");
+    formatText("underline");
   };
 
   const strikeThroughText = () => {
-    document.execCommand("styleWithCSS", false, null);
-    document.execCommand("strikeThrough");
+    formatText("strikeThrough");
   };
+
   const subScriptTxt = () => {
-    document.execCommand("styleWithCSS", false, null);
-    document.execCommand("subscript");
+    formatText("subscript");
   };
 
   const OrderedList = () => {
-    document.execCommand("styleWithCSS", false, null);
-    document.execCommand("insertOrderedList");
+    formatText("insertOrderedList");
   };
+
   const UnOrderedList = () => {
-    document.execCommand("styleWithCSS", false, null);
-    document.execCommand("insertUnorderedList");
+    formatText("insertUnorderedList");
   };
 
   const emojiTxt = (value) => {
-    document.execCommand("styleWithCSS", false, null);
-    document.execCommand("insertText", false, value);
+    formatText("insertText", value);
   };
 
   const changeFontFamily = (value) => {
-    document.execCommand("styleWithCSS", false, null);
-    document.execCommand("fontName", false, value);
+    formatText("fontName", value);
   };
 
   const superScriptTxt = () => {
-    document.execCommand("styleWithCSS", false, null);
-    document.execCommand("superscript");
+    formatText("superscript");
   };
 
   const changeFontSize = (size, textType) => {
@@ -217,14 +196,12 @@ const EditorClips = () => {
       textType === "Heading 4" ||
       textType === "Heading 5"
     ) {
-      const headingLevel = textType.split(" ")[1]; // Extract the heading level from the textType
+      const headingLevel = textType.split(" ")[1];
       htmlToInsert = `<h${headingLevel} style="font-size: ${size}rem;">${selectedTxtNode}</h${headingLevel}>`;
     } else if (textType === "Paragraph") {
       htmlToInsert = `<p style="font-size: ${size}rem;">${selectedTxtNode}</p>`;
     }
-    document.execCommand("styleWithCSS", false, null);
-    document.execCommand("insertHTML", false, htmlToInsert);
-    setSelectedTxtNode("");
+    formatText("insertHTML", htmlToInsert);
   };
 
   useEffect(() => {
@@ -243,9 +220,10 @@ const EditorClips = () => {
       document.removeEventListener("mouseup", handleMouseUp);
     };
   }, []);
+
   return (
     <div
-      className="flex gap-1 relative overflow-hidden"
+      className="flex gap-1 relative overflow-hidden pt-1"
       style={{ flexWrap: toggleClip && "wrap" }}
     >
       <span
@@ -282,9 +260,7 @@ const EditorClips = () => {
       <DevTooltip tipData="Text Color">
         <ClipTxtColor changeColor={changeColor} />
       </DevTooltip>
-      <DevTooltip tipData="Highlight Text">
-        <ClipTxtHighLight highlightText={highlightText} />
-      </DevTooltip>
+
       <DevTooltip tipData="Insert Link">
         <DevButton
           ripple={true}
@@ -298,6 +274,12 @@ const EditorClips = () => {
       </DevTooltip>
       <DevTooltip tipData="Font Size">
         <ClipFontSize changeFontSize={changeFontSize} />
+      </DevTooltip>
+      <DevTooltip tipData="Highlight Text">
+        <ClipTxtHighLight highlightText={highlightText} />
+      </DevTooltip>
+      <DevTooltip tipData="Font Family">
+        <ClipFontFamily changeFontFamily={changeFontFamily} />
       </DevTooltip>
       <DevTooltip tipData="Align Left">
         <DevButton
@@ -376,9 +358,7 @@ const EditorClips = () => {
           <RiListOrdered2 />
         </DevButton>
       </DevTooltip>
-      <DevTooltip tipData="Font Family">
-        <ClipFontFamily changeFontFamily={changeFontFamily} />
-      </DevTooltip>
+
       <DevTooltip tipData="Code Format">
         <DevButton
           ripple={true}

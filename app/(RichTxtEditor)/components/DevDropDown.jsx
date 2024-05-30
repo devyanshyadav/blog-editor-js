@@ -64,7 +64,7 @@ const DevPopover = ({
           </Popover>,
           document.body
         )}
-      <div className="grid place-content-center" onClick={() => setMounted(!mounted)} data-tooltip-id={randomId}>
+      <div className="flex items-center justify-center" onClick={() => setMounted(!mounted)} data-tooltip-id={randomId}>
         {popButton}
       </div>
     </div>

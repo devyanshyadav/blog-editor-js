@@ -8,13 +8,3 @@ body {
 .ql-toolbar {
   @apply hidden;
 }
-ol {
-  list-style-position: inside !important;
-  list-style: decimal;
-  accent-color: #bde968;
-}
-ul {
-  list-style-position: inside !important;
-  list-style: disc;
-  accent-color: #bde968;
-}
