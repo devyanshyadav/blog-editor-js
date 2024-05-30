@@ -20,7 +20,7 @@ const HTMLAceEditor = () => {
     fontSize="15px"
     wrapEnabled
     style={{
-      fontFamily: "Source Code Pro, monospace;",
+      fontFamily: "monospace;",
       borderRadius: "0 0 12px 12px",
       marginTop: "10px",
     }}

@@ -10,9 +10,32 @@ import DevDynamicStore from "../libs/utils/BlogDynamicStore";
 const page = () => {
   const { textData, setTextData } = DevDynamicStore();
   const { switchTab, setSwitchTab } = DevStore();
-
+  const demoData = {
+    undo: function() {
+      if (this.pastStates.length > 0) {
+        const undoData = this.pastStates.pop();
+        this.futureStates.push({ textData: this.textData });
+        this.textData = undoData.textData;
+      }
+    },
+    redo: function() {
+      if (this.futureStates.length > 0) {
+        const redoData = this.futureStates.pop();
+        this.pastStates.push({ textData: this.textData });
+        this.textData = redoData.textData;
+      }
+    },
+    clear: function() {
+      this.textData = '';
+      this.pastStates = [];
+      this.futureStates = [];
+    },
+    pastStates: [],
+    futureStates: [],
+    textData: 'Initial text'
+  };
   const { undo, redo, clear, pastStates, futureStates } =
-    DevDynamicStore.temporal.getState();
+  demoData
 
   useEffect(() => {
     setSwitchTab(1);
