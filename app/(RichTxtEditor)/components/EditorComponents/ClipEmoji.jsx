@@ -7,6 +7,7 @@ import { createPortal } from "react-dom";
 
 export default function ClipEmoji({ emojiTxt }) {
   const [isPickerVisible, setIsPickerVisible] = useState(false);
+  const [mounted, setMounted] = useState(false);
   let pickerInstance = null;
   const [position, setPosition] = useState({ top: "", left: "" });
   const toggleRef = useRef(null);
@@ -27,7 +28,7 @@ export default function ClipEmoji({ emojiTxt }) {
   }, [isPickerVisible]);
 
   useEffect(() => {
-    if (isPickerVisible && pickerRef.current) {
+    if ( pickerRef.current) {
       pickerInstance = new Picker();
       pickerRef.current.appendChild(pickerInstance);
       pickerInstance.style =
@@ -44,7 +45,7 @@ export default function ClipEmoji({ emojiTxt }) {
         pickerRef.current.removeChild(pickerInstance);
       }
     };
-  }, [isPickerVisible, emojiTxt]);
+  }, [emojiTxt]);
 
   const togglePicker = () => setIsPickerVisible(!isPickerVisible);
 
@@ -59,7 +60,12 @@ export default function ClipEmoji({ emojiTxt }) {
       };
       setPosition(newPosition);
     }
+
   }, [isPickerVisible]);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   return (
     <section className="w-fit">
