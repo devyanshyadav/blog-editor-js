@@ -16,7 +16,7 @@ export default function ClipEmoji({ emojiTxt }) {
     const handleClickOutside = (event) => {
       if (
         pickerRef.current &&
-       !pickerRef.current.contains(event.target) &&
+        !pickerRef.current.contains(event.target) &&
         isPickerVisible
       ) {
         setIsPickerVisible(false);
@@ -27,8 +27,7 @@ export default function ClipEmoji({ emojiTxt }) {
   }, [isPickerVisible]);
 
   useEffect(() => {
-    // Check if requestAnimationFrame is available
-    if (typeof window.requestAnimationFrame!== 'undefined' && isPickerVisible && pickerRef.current) {
+    if (isPickerVisible && pickerRef.current) {
       pickerInstance = new Picker();
       pickerRef.current.appendChild(pickerInstance);
       pickerInstance.style =
@@ -36,10 +35,10 @@ export default function ClipEmoji({ emojiTxt }) {
       pickerInstance.addEventListener("emoji-click", (event) =>
         emojiTxt(event.detail.emoji.unicode)
       );
-    } else {
-      console.error('requestAnimationFrame is not supported');
+    } else if (pickerInstance && pickerRef.current) {
+      pickerRef.current.removeChild(pickerInstance);
+      pickerInstance = null;
     }
-
     return () => {
       if (pickerInstance && pickerRef.current) {
         pickerRef.current.removeChild(pickerInstance);
@@ -50,7 +49,7 @@ export default function ClipEmoji({ emojiTxt }) {
   const togglePicker = () => setIsPickerVisible(!isPickerVisible);
 
   useEffect(() => {
-    if (isPickerVisible && toggleRef.current) {
+    if (toggleRef.current) {
       const toggleRect = toggleRef.current.getBoundingClientRect();
       const pickerRect =
         pickerRef.current && pickerRef.current.getBoundingClientRect();
@@ -75,7 +74,7 @@ export default function ClipEmoji({ emojiTxt }) {
           <RiEmotionLine />
         </DevButton>
       </div>
-      {isPickerVisible &&
+      {
         createPortal(
           <div
             ref={pickerRef}
