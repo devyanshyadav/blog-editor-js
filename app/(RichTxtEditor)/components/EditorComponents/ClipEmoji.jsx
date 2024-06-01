@@ -1,98 +1,61 @@
 "use client";
 import React, { useEffect, useRef, useState } from "react";
 import { Picker } from "emoji-picker-element";
-import { RiEmotionLine } from "react-icons/ri";
-import DevButton from "../DevButton";
-import { createPortal } from "react-dom";
+import { RiCircleFill, RiEmotionLine, RiFontSize2 } from "react-icons/ri";
 
 export default function ClipEmoji({ emojiTxt }) {
-  const [isPickerVisible, setIsPickerVisible] = useState(false);
-  const [mounted, setMounted] = useState(false);
-  let pickerInstance = null;
-  const [position, setPosition] = useState({ top: "", left: "" });
-  const toggleRef = useRef(null);
   const pickerRef = useRef(null);
+  const [isDropDownVisible, setIsDropDownVisible] = useState(false);
+  let pickerInstance = null; // Store the Picker instance
 
   useEffect(() => {
-    const handleClickOutside = (event) => {
-      if (
-        pickerRef.current &&
-        !pickerRef.current.contains(event.target) &&
-        isPickerVisible
-      ) {
-        setIsPickerVisible(false);
-      }
-    };
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => document.removeEventListener("mousedown", handleClickOutside);
-  }, [isPickerVisible]);
-
-  useEffect(() => {
-    if ( pickerRef.current) {
+    if (isDropDownVisible && pickerRef.current) {
       pickerInstance = new Picker();
       pickerRef.current.appendChild(pickerInstance);
-      pickerInstance.style =
-        "position: absolute; top: 20px; left: 50%; transform: translateX(-50%); z-index: 1000; border-radius: 14px; overflow: hidden;";
-      pickerInstance.addEventListener("emoji-click", (event) =>
-        emojiTxt(event.detail.emoji.unicode)
-      );
+
+      // Add event listener for emoji selection
+      pickerInstance.addEventListener("emoji-click", (event) => {
+        const emojiValue = event.detail.emoji.unicode;
+        emojiTxt(emojiValue);
+        // Here you can handle the selected emoji value, e.g., update state, call a function, etc.
+      });
     } else if (pickerInstance && pickerRef.current) {
+      // Cleanup: Remove the Picker when the dropdown is hidden
       pickerRef.current.removeChild(pickerInstance);
-      pickerInstance = null;
+      pickerInstance = null; // Reset the Picker instance
     }
+
+    // Cleanup function to remove the picker when the component unmounts
     return () => {
       if (pickerInstance && pickerRef.current) {
         pickerRef.current.removeChild(pickerInstance);
       }
     };
-  }, [emojiTxt]);
+  }, [isDropDownVisible]); // Depend on the visibility state
 
-  const togglePicker = () => setIsPickerVisible(!isPickerVisible);
-
-  useEffect(() => {
-    if (toggleRef.current) {
-      const toggleRect = toggleRef.current.getBoundingClientRect();
-      const pickerRect =
-        pickerRef.current && pickerRef.current.getBoundingClientRect();
-      const newPosition = {
-        top: toggleRect.bottom,
-        left: toggleRect.left + toggleRect.width / 2 - pickerRect.width / 2,
-      };
-      setPosition(newPosition);
-    }
-
-  }, [isPickerVisible]);
-
-  useEffect(() => {
-    setMounted(true);
-  }, []);
+  const toggleDropDown = () => {
+    setIsDropDownVisible(!isDropDownVisible);
+  };
 
   return (
-    <section className="w-fit">
-      <div ref={toggleRef} className="cursor-pointer" contentEditable={false}>
-        <DevButton
-          ripple={true}
-          onClick={togglePicker}
-          size="lg"
-          icon={true}
-          variant="customForIcon"
-        >
-          <RiEmotionLine />
-        </DevButton>
+    <>
+    <p onClick={toggleDropDown}>Hello</p>
+      <div
+        togButton={
+          <button onClick={toggleDropDown}>
+            <RiEmotionLine />
+          </button>
+        }
+        setExternal={setIsDropDownVisible}
+      >
+        <div
+          onClick={(e) => {
+            e.stopPropagation();
+          }}
+          className="rounded-xl border border-accent overflow-hidden"
+          ref={pickerRef}
+        ></div>
       </div>
-      {
-        createPortal(
-          <div
-            ref={pickerRef}
-            style={{
-              position: "fixed",
-              top: `${position.top}px`,
-              left: `${position.left}px`,
-            }}
-            className="fixed z-50"
-          ></div>,
-          document.body
-        )}
-    </section>
+    </>
   );
 }
