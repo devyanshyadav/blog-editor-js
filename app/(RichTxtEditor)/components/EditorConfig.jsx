@@ -19,7 +19,7 @@ const EditorConfig = ({ textData, setTextData }) => {
   return (
     <EditorConfigStyle>
     <ContentEditable
-      ContentEditable
+      contentEditable
       className="md:w-[96%] flex-grow mx-auto flex-1 border-none focus:outline-none p-5"
       onChange={(e) => setTextData(e.target.value)}
       html={textData}
