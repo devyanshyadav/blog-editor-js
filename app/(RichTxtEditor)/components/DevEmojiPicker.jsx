@@ -3,7 +3,7 @@ import React, { useState, useEffect } from "react";
 import Emoji from "./Emoji.json";
 import JsonSearch from "search-array";
 import { FiSearch } from "react-icons/fi";
-import * as Emojione from 'emojione';
+import * as Emojione from "emojione";
 
 const DevEmojiPicker = ({ emojiTxt }) => {
   const [uniqueCategories, setUniqueCategories] = useState([]);
@@ -62,37 +62,33 @@ const DevEmojiPicker = ({ emojiTxt }) => {
         ))}
       </ul>
 
-      <ul className="w-full h-full items-start content-start justify-start overflow-y-scroll grid grid-cols-9 gap-1 text-xl">
+      <div className="w-full h-full items-start content-start justify-start overflow-y-scroll grid grid-cols-9 gap-1 text-xl">
         {!filteredEmojis.length > 0
           ? Emoji.filter((e, i) => e.category === currentCategory).map(
               (elem, index) => (
-                <li
+                <button
                   className="cursor-pointer hover:scale-95 transition-all"
                   onMouseEnter={() =>
                     setHoveredEmoji(elem.emoji + elem.aliases[0])
                   }
-                  onClick={emojiTxt(elem.emoji)}
+                  onClick={() => emojiTxt(elem.emoji)}
                   onMouseLeave={() => setHoveredEmoji(null)}
                   key={index}
                 >
                   {elem.emoji}
-                </li>
+                </button>
               )
             )
           : filteredEmojis.map((elem, index) => (
-              <li
+              <button
                 className="cursor-pointer hover:scale-95 transition-all"
-                onMouseEnter={() =>
-                  setHoveredEmoji(elem.emoji + elem.aliases[0])
-                }
                 onClick={() => emojiTxt(elem.emoji)}
-                onMouseLeave={() => setHoveredEmoji(null)}
                 key={index}
               >
                 {elem.emoji}
-              </li>
+              </button>
             ))}
-      </ul>
+      </div>
     </section>
   );
 };
