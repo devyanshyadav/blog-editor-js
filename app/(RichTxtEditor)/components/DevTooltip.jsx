@@ -17,7 +17,7 @@ const DevTooltip = ({ children, place = "bottom", tipData }) => {
             id={Id}
             place={place}
             offset={2}
-            style={{ backgroundColor: "transparent", padding: "0px" }}
+            style={{ backgroundColor: "transparent", padding: "0px", zIndex: 1000 }}
           >
             <div className="bg-cyan-700 border border-cyan-400 text-xs px-2 rounded-full text-white">
               {tipData}

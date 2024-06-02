@@ -2,7 +2,7 @@
 
 import React from "react";
 import { RiCircleFill, RiFontSize2 } from "react-icons/ri";
-import DevDropDown from "../DevDropDown";
+import DevDropDown from "../DevPopover";
 import DevButton from "../DevButton";
 
 export default function ClipFontSize({ changeFontSize, clipClass }) {

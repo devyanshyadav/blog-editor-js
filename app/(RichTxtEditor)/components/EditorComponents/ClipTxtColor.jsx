@@ -4,7 +4,7 @@ import React from "react";
 
 import { RiCircleFill, RiFontSize } from "react-icons/ri";
 import { MdFormatColorText } from "react-icons/md";
-import DevDropDown from "../DevDropDown";
+import DevDropDown from "../DevPopover";
 import DevButton from "../DevButton";
 import DevColorPicker from "../DevColorPicker";
 

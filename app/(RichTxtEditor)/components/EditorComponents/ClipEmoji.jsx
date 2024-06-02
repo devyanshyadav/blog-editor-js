@@ -1,7 +1,7 @@
 import React from "react";
 import DevEmojiPicker from "../DevEmojiPicker";
 import DevButton from "../DevButton";
-import DevDropDown from "../DevDropDown";
+import DevDropDown from "../DevPopover";
 import { RiEmotionLine } from "react-icons/ri";
 
 const ClipEmoji = ({ emojiTxt }) => {

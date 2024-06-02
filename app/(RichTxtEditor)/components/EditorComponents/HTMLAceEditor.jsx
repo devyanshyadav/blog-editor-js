@@ -21,8 +21,9 @@ const HTMLAceEditor = () => {
     wrapEnabled
     style={{
       fontFamily: "Source Code Pro, monospace;",
-      borderRadius: "0 0 12px 12px",
+      borderRadius: "12px",
       marginTop: "10px",
+      padding: "10px",
     }}
     editorProps={{ $blockScrolling: true }}
     setOptions={{

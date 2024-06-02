@@ -197,9 +197,9 @@ const EditorClips = () => {
       textType === "Heading 5"
     ) {
       const headingLevel = textType.split(" ")[1];
-      htmlToInsert = `<h${headingLevel} style="font-size: ${size}rem;">${selectedTxtNode}</h${headingLevel}>`;
+      htmlToInsert = `<h${headingLevel}>${selectedTxtNode}</h${headingLevel}>`;
     } else if (textType === "Paragraph") {
-      htmlToInsert = `<p style="font-size: ${size}rem;">${selectedTxtNode}</p>`;
+      htmlToInsert = `<p>${selectedTxtNode}</p>`;
     }
     formatText("insertHTML", htmlToInsert);
   };

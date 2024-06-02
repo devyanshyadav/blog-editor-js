@@ -2,7 +2,7 @@
 import React from "react";
 import { RiCircleFill, RiFontSansSerif, RiFontSize } from "react-icons/ri";
 import { LuHighlighter } from "react-icons/lu";
-import DevDropDown from "../DevDropDown";
+import DevDropDown from "../DevPopover";
 import DevButton from "../DevButton";
 
 export default function ClipFontFamily({ changeFontFamily, clipClass }) {

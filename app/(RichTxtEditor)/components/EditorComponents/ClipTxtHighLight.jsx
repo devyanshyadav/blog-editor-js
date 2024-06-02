@@ -1,7 +1,7 @@
 "use client";
 import React from "react";
 import { LuHighlighter } from "react-icons/lu";
-import DevDropDown from "../DevDropDown";
+import DevDropDown from "../DevPopover";
 import DevButton from "../DevButton";
 import DevColorPicker from "../DevColorPicker";
 
