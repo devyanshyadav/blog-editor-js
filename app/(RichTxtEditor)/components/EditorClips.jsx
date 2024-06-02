@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useId, useState } from "react";
 import {
   RiAlignCenter,
   RiAlignLeft,
@@ -10,6 +10,7 @@ import {
   RiItalic,
   RiLinkM,
   RiListOrdered2,
+  RiListUnordered,
   RiStrikethrough,
   RiSubscript,
   RiSuperscript,
@@ -30,10 +31,16 @@ import { GoCodeSquare } from "react-icons/go";
 import { ImPageBreak } from "react-icons/im";
 import { RiSpace } from "react-icons/ri";
 import DevStore from "../libs/utils/BlogStore";
+import CLipTable from "./EditorComponents/CLipTable";
+import { ImTable2 } from "react-icons/im";
+import ReactDOMServer from "react-dom/server";
+import DevPopover from "./DevPopover";
+import { RxCross2 } from "react-icons/rx";
 
 const EditorClips = () => {
   const [selectedTxtNode, setSelectedTxtNode] = useState("");
   const { toggleClip, setToggleClip } = DevStore();
+  const uniqueID = useId();
 
   const formatText = (command, value = null) => {
     document.execCommand("styleWithCSS", false, null);
@@ -204,6 +211,18 @@ const EditorClips = () => {
     formatText("insertHTML", htmlToInsert);
   };
 
+  const insertTable = () => {
+    const data = prompt("Enter number of rows and columns separated by comma");
+    const [rows, columns] = data.split(",").map(Number);
+
+    const htmlStringTable = ReactDOMServer.renderToString(
+      <CLipTable rows={rows} columns={columns} key={uniqueID} />
+    );
+
+    formatText("insertHTML", `${htmlStringTable} <br/> `);
+    restoreCaretPosition();
+  };
+
   useEffect(() => {
     const handleMouseUp = () => {
       const selection = window.getSelection();
@@ -355,7 +374,51 @@ const EditorClips = () => {
           icon={true}
           variant="customForIcon"
         >
-          <RiListOrdered2 />
+          <RiListUnordered />
+        </DevButton>
+      </DevTooltip>
+
+      <DevTooltip tipData="Table">
+        {/* <DevPopover
+          popButton={
+            <DevButton
+              ripple={true}
+              size="lg"
+              icon={true}
+              variant="customForIcon"
+            >
+              <ImTable2 />
+            </DevButton>
+          }
+        >
+          <div className="w-32 space-y-1 border shadow-md rounded-md bg-white p-1">
+            <span className="w-full text-cyan-700 flex select-none items-center justify-between gap-2 text-sm">
+              <label htmlFor="rows" className="text-sm">Rows</label>
+              <RxCross2 />
+              <label htmlFor="columns" className="text-sm">Columns</label>
+            </span>
+            <span className="w-full text-cyan-700 grid grid-cols-2 gap-1  rounded-md">
+              <input value={tableData.rows} onChange={(e) => setTableData((prev)=>({...prev,rows:e.target.value}))} id="rows" type="number" className="border rounded-md pl-2"  />
+              <input value={tableData.columns} onChange={(e) => setTableData((prev)=>({...prev,columns:e.target.value}))} id="columns" type="number" className="border rounded-md pl-2" />
+            </span>
+            <DevButton
+              className="w-full  text-xs"
+              size="sm"
+              ripple={true}
+              onClick={insertTable}
+            >
+              Create Table
+            </DevButton>
+          </div>
+        </DevPopover> */}
+        <DevButton
+          ripple={true}
+          size="lg"
+          icon={true}
+          variant="customForIcon"
+          onClick={insertTable}
+        >
+          <ImTable2 />
         </DevButton>
       </DevTooltip>
 
