@@ -43,7 +43,9 @@ const EditorClips = () => {
   const uniqueID = useId();
 
   const formatText = (command, value = null) => {
-    document.execCommand("styleWithCSS", false, null);
+    if (value === "unset") {
+      document.execCommand("styleWithCSS", false, null);
+    }
     document.execCommand(command, false, value);
     setSelectedTxtNode("");
   };
@@ -57,10 +59,9 @@ const EditorClips = () => {
   };
 
   const changeColor = (colorValue) => {
-    formatText(
-      "insertHTML",
-      `<span style="color: ${colorValue}">${selectedTxtNode}</span> ‎`
-    );
+    if (selectedTxtNode) {
+      formatText("foreColor", colorValue);
+    }
   };
 
   const changeTxtToCode = () => {
@@ -136,10 +137,9 @@ const EditorClips = () => {
   };
 
   const highlightText = (colorValue) => {
-    formatText(
-      "insertHTML",
-      `<span style="background-color: ${colorValue}">${selectedTxtNode}</span> ‎`
-    );
+    if (selectedTxtNode) {
+      formatText("hiliteColor", colorValue);
+    }
   };
 
   const insertLink = () => {
